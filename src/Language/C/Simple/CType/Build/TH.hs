@@ -23,13 +23,13 @@ mk_simple_c_type_record' name members = result where
                 
  
 mk_to_c_exp :: Name -> [VarStrictType] -> Exp
-mk_to_c_exp name members = AppE (AppE (VarE $ mkName "Conversion.mk_record_ctype") 
+mk_to_c_exp name members = AppE (AppE (VarE $ mkName "mkRecordCType") 
                    (LitE (StringL $ show name)))
                    (ListE $ map make_member_arg members)
      
 make_member_arg :: VarStrictType -> Exp
 make_member_arg (name, _, typ) = InfixE (Just (LitE (StringL $ show name)))
-                                (VarE $ mkName "Conversion.<::>")
+                                (VarE $ mkName "<::>")
                                 (Just (SigE (VarE $ mkName "undefined") typ))
                                 
 get_members (TyConI dec) = get_members_dec dec
